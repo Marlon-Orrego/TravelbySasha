@@ -74,15 +74,15 @@ router.get('/reservas/:id', async (req, res) => {
 router.put('/reservas/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const userObject = req.body
-        const user = new Reserva(userObject)
+        const reservaObject = req.body
+        const reserva = new Reserva(reservaObject)
 
-        const responseDb = await updateDocumentById('SASHA', 'reservas', { id, data: user.initUser() })
+        const responseDb = await updateDocumentById('SASHA', 'reservas', { id, data: reserva.initUser() })
         if (responseDb.modifiedCount > 0) {
             return res.status(200).send({
                 ok: true,
                 message: "Reserva actualizada.",
-                info: userObject
+                info: reservaObject
             })
         } else {
             res.status(404).send({

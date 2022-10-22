@@ -8,14 +8,14 @@ const Avion = require('../../models/Avion');
 // Crear una instancia del router
 const router = express.Router()
 
-router.post('/usuarios', async (req, res) => {
+router.post('/aviones', async (req, res) => {
     try {
         const avionObject = req.body
         const avion = new Avion(avionObject)
-        const responseDb = await insertDocument('tienda', 'usuarios', avion.initUser())
+        const responseDb = await insertDocument('SASHA', 'aviones', avion.initUser())
         res.send({
             ok: true,
-            message: "Usuario creado.",
+            message: "Avion creado.",
             info: responseDb
         })
     } catch (error) {
@@ -24,24 +24,24 @@ router.post('/usuarios', async (req, res) => {
         } else {
             res.status(500).send({
                 ok: true,
-                message: "Usuario NO creado.",
+                message: "Avion NO creado.",
                 info: error.toString()
             })
         }
     }
 })
 
-router.get('/usuarios', async (req, res) => {
+router.get('/aviones', async (req, res) => {
     try {
-        const responseDb = await getDocuments('tienda', 'usuarios')
-        const Avion = Avion.removePassword(responseDb)
+        const responseDb = await getDocuments('SASHA', 'aviones')
+        const avion = Avion.removePassword(responseDb)
         res.send({
             ok: true,
-            message: "Usuarios consultados",
-            info: Avion
+            message: "aviones consultados",
+            info: avion
         })
     } catch (error) {
-        const message = "Ha ocurrido un error en la consulta de usuarios."
+        const message = "Ha ocurrido un error en la consulta de aviones."
         res.status(500).send({
             ok: false,
             message,
@@ -50,18 +50,18 @@ router.get('/usuarios', async (req, res) => {
     }
 })
 
-router.get('/usuarios/:id', async (req, res) => {
+router.get('/aviones/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const responseDb = await getDocumentById('tienda', 'usuarios', id)
+        const responseDb = await getDocumentById('SASHA', 'aviones', id)
        delete responseDb.password
         res.send({
             ok: true,
-            message: "Usuario consultado",
+            message: "Avion consultado",
             info: responseDb
         })
     } catch (error) {
-        const message = "Ha ocurrido un error consultando el usuario."
+        const message = "Ha ocurrido un error consultando el Avion."
         res.status(500).send({
             ok: false,
             message,
@@ -71,28 +71,28 @@ router.get('/usuarios/:id', async (req, res) => {
 
 })
 
-router.put('/usuarios/:id', async (req, res) => {
+router.put('/aviones/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const userObject = req.body
-        const user = new Avion(userObject)
+        const avionObject = req.body
+        const avion = new Avion(avionObject)
 
-        const responseDb = await updateDocumentById('tienda', 'usuarios', { id, data: user.initUser() })
+        const responseDb = await updateDocumentById('SASHA', 'aviones', { id, data: avion.initUser() })
         if (responseDb.modifiedCount > 0) {
             return res.status(200).send({
                 ok: true,
-                message: "Usuario actualizado.",
-                info: userObject
+                message: "Avion actualizado.",
+                info: avionObject
             })
         } else {
             res.status(404).send({
                 ok: false,
-                message: "El usuario no existe.",
+                message: "El Avion no existe.",
                 info: ""
             })
         }
     } catch (error) {
-        const message = "Ha ocurrido un error modificando el usuario."
+        const message = "Ha ocurrido un error modificando el Avion."
         res.status(500).send({
             ok: false,
             message,
@@ -101,25 +101,25 @@ router.put('/usuarios/:id', async (req, res) => {
     }
 })
 
-router.delete('/usuarios/:id', async (req, res) => {
+router.delete('/aviones/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const responseDb = await deleteDocumentById('tienda', 'usuarios', id)
+        const responseDb = await deleteDocumentById('SASHA', 'aviones', id)
         if (responseDb.deletedCount === 1) {
             res.status(200).send({
                 ok: true,
-                message: "Usuario eliminado",
+                message: "Avion eliminado",
                 info: ""
             })
         } else {
             res.status(404).send({
                 ok: false,
-                message: "El usuario no existe.",
+                message: "El Avion no existe.",
                 info: responseDb
             })
         }
     } catch (error) {
-        const message = "Ha ocurrido un error eliminando el usuario."
+        const message = "Ha ocurrido un error eliminando el Avion."
         res.status(500).send({
             ok: false,
             message,
