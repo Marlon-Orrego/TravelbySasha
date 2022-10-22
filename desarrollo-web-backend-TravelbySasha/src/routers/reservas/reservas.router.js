@@ -12,7 +12,7 @@ router.post('/reservas', async (req, res) => {
     try {
         const reservaObject = req.body
         const reserva = new Reserva(reservaObject)
-        const responseDb = await insertDocument('SASHA', 'reservas', reserva.initUser())
+        const responseDb = await insertDocument('sasha', 'reservas', reserva)
         res.send({
             ok: true,
             message: "Reserva creada.",
@@ -33,8 +33,8 @@ router.post('/reservas', async (req, res) => {
 
 router.get('/reservas', async (req, res) => {
     try {
-        const responseDb = await getDocuments('SASHA', 'reservas')
-        const reserva = Reserva.removePassword(responseDb)
+        const responseDb = await getDocuments('sasha', 'reservas')
+        
         res.send({
             ok: true,
             message: "Reservas consultadas",
@@ -53,8 +53,8 @@ router.get('/reservas', async (req, res) => {
 router.get('/reservas/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const responseDb = await getDocumentById('SASHA', 'reservas', id)
-       delete responseDb.password
+        const responseDb = await getDocumentById('sasha', 'reservas', id)
+       
         res.send({
             ok: true,
             message: "Reserva consultado",
@@ -77,7 +77,7 @@ router.put('/reservas/:id', async (req, res) => {
         const reservaObject = req.body
         const reserva = new Reserva(reservaObject)
 
-        const responseDb = await updateDocumentById('SASHA', 'reservas', { id, data: reserva.initUser() })
+        const responseDb = await updateDocumentById('sasha', 'reservas', { id, data: reserva })
         if (responseDb.modifiedCount > 0) {
             return res.status(200).send({
                 ok: true,
@@ -104,7 +104,7 @@ router.put('/reservas/:id', async (req, res) => {
 router.delete('/reservas/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const responseDb = await deleteDocumentById('SASHA', 'reservas', id)
+        const responseDb = await deleteDocumentById('sasha', 'reservas', id)
         if (responseDb.deletedCount === 1) {
             res.status(200).send({
                 ok: true,
@@ -126,6 +126,13 @@ router.delete('/reservas/:id', async (req, res) => {
             info: error.toString()
         })
     }
+})
+router.get('/', async (req, res) => {
+    res.send({
+        ok: true,
+        message: "funcionando",
+        info: ""
+    })
 })
 
 module.exports = router

@@ -12,7 +12,7 @@ router.post('/vuelos', async (req, res) => {
     try {
         const vuelosObject = req.body
         const vuelos = new Vuelos(vuelosObject)
-        const responseDb = await insertDocument('SASHA', 'vuelos', vuelos.initUser())
+        const responseDb = await insertDocument('sasha', 'vuelos', vuelos)
         res.send({
             ok: true,
             message: "Vuelo creado.",
@@ -33,7 +33,7 @@ router.post('/vuelos', async (req, res) => {
 
 router.get('/vuelos', async (req, res) => {
     try {
-        const responseDb = await getDocuments('SASHA', 'vuelos')
+        const responseDb = await getDocuments('sasha', 'vuelos')
         const vuelo = Vuelos.removePassword(responseDb)
         res.send({
             ok: true,
@@ -53,8 +53,8 @@ router.get('/vuelos', async (req, res) => {
 router.get('/vuelos/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const responseDb = await getDocumentById('SASHA', 'vuelos', id)
-       delete responseDb.password
+        const responseDb = await getDocumentById('sasha', 'vuelos', id)
+       
         res.send({
             ok: true,
             message: "Vuelo consultado",
@@ -77,7 +77,7 @@ router.put('/vuelos/:id', async (req, res) => {
         const vueloObject = req.body
         const vuelo = new Vuelos(vueloObject)
 
-        const responseDb = await updateDocumentById('SASHA', 'vuelos', { id, data: vuelo.initUser() })
+        const responseDb = await updateDocumentById('sasha', 'vuelos', { id, data: vuelo })
         if (responseDb.modifiedCount > 0) {
             return res.status(200).send({
                 ok: true,
@@ -104,7 +104,7 @@ router.put('/vuelos/:id', async (req, res) => {
 router.delete('/vuelos/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const responseDb = await deleteDocumentById('SASHA', 'vuelos', id)
+        const responseDb = await deleteDocumentById('sasha', 'vuelos', id)
         if (responseDb.deletedCount === 1) {
             res.status(200).send({
                 ok: true,

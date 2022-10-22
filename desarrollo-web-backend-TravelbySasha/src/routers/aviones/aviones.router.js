@@ -12,7 +12,7 @@ router.post('/aviones', async (req, res) => {
     try {
         const avionObject = req.body
         const avion = new Avion(avionObject)
-        const responseDb = await insertDocument('SASHA', 'aviones', avion.initUser())
+        const responseDb = await insertDocument('sasha', 'aviones', avion)
         res.send({
             ok: true,
             message: "Avion creado.",
@@ -33,12 +33,12 @@ router.post('/aviones', async (req, res) => {
 
 router.get('/aviones', async (req, res) => {
     try {
-        const responseDb = await getDocuments('SASHA', 'aviones')
-        const avion = Avion.removePassword(responseDb)
+        const responseDb = await getDocuments('sasha', 'aviones')
+        
         res.send({
             ok: true,
             message: "aviones consultados",
-            info: avion
+            info: responseDb
         })
     } catch (error) {
         const message = "Ha ocurrido un error en la consulta de aviones."
@@ -53,8 +53,8 @@ router.get('/aviones', async (req, res) => {
 router.get('/aviones/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const responseDb = await getDocumentById('SASHA', 'aviones', id)
-       delete responseDb.password
+        const responseDb = await getDocumentById('sasha', 'aviones', id)
+       
         res.send({
             ok: true,
             message: "Avion consultado",
@@ -77,7 +77,7 @@ router.put('/aviones/:id', async (req, res) => {
         const avionObject = req.body
         const avion = new Avion(avionObject)
 
-        const responseDb = await updateDocumentById('SASHA', 'aviones', { id, data: avion.initUser() })
+        const responseDb = await updateDocumentById('sasha', 'aviones', { id, data: avion })
         if (responseDb.modifiedCount > 0) {
             return res.status(200).send({
                 ok: true,
@@ -104,7 +104,7 @@ router.put('/aviones/:id', async (req, res) => {
 router.delete('/aviones/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const responseDb = await deleteDocumentById('SASHA', 'aviones', id)
+        const responseDb = await deleteDocumentById('sasha', 'aviones', id)
         if (responseDb.deletedCount === 1) {
             res.status(200).send({
                 ok: true,

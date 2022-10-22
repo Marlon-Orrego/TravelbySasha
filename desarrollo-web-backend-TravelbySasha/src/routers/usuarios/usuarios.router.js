@@ -12,13 +12,14 @@ router.post('/usuarios', async (req, res) => {
     try {
         const userObject = req.body
         const user = new Users(userObject)
-        const responseDb = await insertDocument('SASHA', 'usuarios', user.initUser())
+        const responseDb = await insertDocument('sasha', 'usuarios', user.initUser())
         res.send({
             ok: true,
             message: "Usuario creado.",
             info: responseDb
         })
     } catch (error) {
+        res.send(error)
         if (Object.keys(error).length > 0) {
             res.status(500).send(error)
         } else {
@@ -33,7 +34,7 @@ router.post('/usuarios', async (req, res) => {
 
 router.get('/usuarios', async (req, res) => {
     try {
-        const responseDb = await getDocuments('SASHA', 'usuarios')
+        const responseDb = await getDocuments('sasha', 'usuarios')
         const users = Users.removePassword(responseDb)
         res.send({
             ok: true,
@@ -53,7 +54,7 @@ router.get('/usuarios', async (req, res) => {
 router.get('/usuarios/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const responseDb = await getDocumentById('SASHA', 'usuarios', id)
+        const responseDb = await getDocumentById('sasha', 'usuarios', id)
        delete responseDb.password
         res.send({
             ok: true,
@@ -77,7 +78,7 @@ router.put('/usuarios/:id', async (req, res) => {
         const userObject = req.body
         const user = new Users(userObject)
 
-        const responseDb = await updateDocumentById('SASHA', 'usuarios', { id, data: user.initUser() })
+        const responseDb = await updateDocumentById('sasha', 'usuarios', { id, data: user.initUser() })
         if (responseDb.modifiedCount > 0) {
             return res.status(200).send({
                 ok: true,
@@ -104,7 +105,7 @@ router.put('/usuarios/:id', async (req, res) => {
 router.delete('/usuarios/:id', async (req, res) => {
     try {
         const id = req.params.id
-        const responseDb = await deleteDocumentById('SASHA', 'usuarios', id)
+        const responseDb = await deleteDocumentById('sasha', 'usuarios', id)
         if (responseDb.deletedCount === 1) {
             res.status(200).send({
                 ok: true,
