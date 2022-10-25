@@ -8,20 +8,30 @@ const cors = require('cors');
 // Crear una instancia 
 const app = express()
 
+//Importar los archivos
+const routerAviones=require("./src/routers/aviones/aviones.router")
+const routerReservas=require("./src/routers/reservas/reservas.router")
+const routerUsuarios=require("./src/routers/usuarios/usuarios.router")
+const routerAuth=require("./src/routers/usuarios/auth.router")
+const routerVuelos=require("./src/routers/vuelos/vuelos.router")
+
+
 // USAR CORS 
 app.use(cors())
+
 
 // USAR JSON EN EL BODY
 app.use(express.json())
 
 // DEFINICION Y USO DE ENDPOINSTS
-app.use(routerProducts)
-app.use(routerBuys)
-app.use(routerUsers)
-app.use(routerAuth)
+app.use(routerAviones)
+app.use(routerReservas)
+app.use(routerUsuarios)
+app.use(routerVuelos) 
+app.use(routerAuth) 
 
 
-const PORT = 3001
+const PORT = 8000
 app.listen(PORT, () => {
     console.log(`Ejecución del API: http://localhost:${PORT}`)
 })
