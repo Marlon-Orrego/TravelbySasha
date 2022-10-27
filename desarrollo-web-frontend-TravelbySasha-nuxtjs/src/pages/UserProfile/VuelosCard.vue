@@ -1,22 +1,23 @@
 <template>
-  <center>
+  <div>
     <CRow :xs="{ cols: 1, gutter: 4 }" :md="{ cols: 3 }">
       <CCol xs v-for="d in data" @click="consultarUsuario(d)">
         <stats-card>
           <div slot="header" class="icon-success">
-            <i class="nc-icon nc-single-02"></i>
+            <i class="nc-icon nc-map-big"></i>
           </div>
           <div slot="content">
-            <p class="card-tittle">{{ d.nombre }}</p>
-            <h4 class="card-category">{{ d.correo }}</h4>
+            <p class="card-tittle">{{ d.IdAvion }}</p>
+            <h4 class="card-title">Tiempo: {{ d.Tiempo }}</h4>
+            <h4 class="card-category">{{ d.FechaDespegue }}</h4>
+            <h4 class="card-category">{{ d.FechaAterrizaje }}</h4>
           </div>
         </stats-card>
       </CCol>
     </CRow>
-  </center>
+  </div>
 </template>
 <script>
-import StatsCard from "src/components/Cards/StatsCard.vue";
 import {
   CRow,
   CCard,
@@ -26,6 +27,9 @@ import {
   CCardText,
   CCardFooter,
 } from "@coreui/bootstrap-vue";
+import ChartCard from "src/components/Cards/ChartCard.vue";
+import StatsCard from "src/components/Cards/StatsCard.vue";
+import LTable from "src/components/Table.vue";
 export default {
   components: {
     CRow,
@@ -35,6 +39,8 @@ export default {
     CCardTitle,
     CCardText,
     CCardFooter,
+    ChartCard,
+    LTable,
     StatsCard,
   },
   data() {
@@ -56,14 +62,14 @@ export default {
       }
     },
     async consultarUsuario(d) {
-      let url = "http://localhost:8000/usuarios/" + d._id;
+      let url = "http://localhost:8000/vuelos/" + d._id;
       let response = await fetch(url);
       let promise = await response.json();
       let datos = promise.info;
     },
   },
   async mounted() {
-    let url = "http://localhost:8000/usuarios";
+    let url = "http://localhost:8000/vuelos";
     let response = await fetch(url);
     let promise = await response.json();
     let datos = promise.info;
