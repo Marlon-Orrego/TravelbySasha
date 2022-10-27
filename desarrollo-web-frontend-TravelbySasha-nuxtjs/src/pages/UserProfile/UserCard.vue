@@ -9,6 +9,7 @@
             <CCardText>{{ d.correo }}</CCardText>
             <br>
             <button v-on:click="consultarUsuario(d)">Editar</button>
+            <button v-on:click="borrarUsuario(d)">Borrar</button>
           </CCardBody>
         </CCard>
       </CCol>
@@ -38,7 +39,8 @@
 
             <center>
               <div class="text-center">
-                <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateProfile(dataEdit._Id)">
+                <button type="submit" class="btn btn-info btn-fill float-right"
+                  @click.prevent="updateProfile(dataEdit._Id)">
                   Actualizar perfil
                 </button>
               </div>
@@ -60,7 +62,7 @@ import {
   CCardText,
   CCardFooter,
 } from "@coreui/bootstrap-vue";
-
+import Swal from 'sweetalert2'
 export default {
   components: {
     CRow,
@@ -70,7 +72,7 @@ export default {
     CCardTitle,
     CCardText,
     CCardFooter,
-    
+
   },
   data() {
     return {
@@ -79,10 +81,10 @@ export default {
       data: [],
       editProfile: false,
       dataEdit: {
-        IdUsuario:"",
-        nombre:"",
-        correo:"",
-        contraseña:""
+        IdUsuario: "",
+        nombre: "",
+        correo: "",
+        contraseña: ""
       }
     };
   },
@@ -108,18 +110,47 @@ export default {
       this.dataEdit.nombre = datos.nombre
       this.dataEdit.correo = datos.correo
       this.dataEdit._Id = datos._id
-      this.dataEdit.contraseña=datos.contraseña
+      this.dataEdit.contraseña = datos.contraseña
     },
-    async updateProfile(id){
+    async updateProfile(id) {
       let url = "http://localhost:8000/usuarios/" + id;
 
       let response = await fetch(url, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-          },
-          body: JSON.stringify(this.dataEdit)
-        });
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(this.dataEdit)
+      });
+      let info=await response.json()
+      if(info.message=='Usuario actualizado.'){
+        await Swal.fire({
+          icon: 'success',
+          title: 'Excelente',
+          text: 'Usuario editado con éxito!',
+          
+        })
+        location.reload()
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'oh no...',
+          text: 'Ha ocurrido un error actualizando el usuario',
+          
+        })
+      }
+      console.log(await response.json())
+    },
+    async borrarUsuario(id) {
+      let url = "http://localhost:8000/usuarios/" + id._id;
+      let response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        }
+        
+      });
+      console.log(await response.json())
     }
   },
   async mounted() {

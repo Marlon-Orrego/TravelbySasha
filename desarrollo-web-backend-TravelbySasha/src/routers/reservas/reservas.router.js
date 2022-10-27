@@ -38,7 +38,7 @@ router.get('/reservas', async (req, res) => {
         res.send({
             ok: true,
             message: "Reservas consultadas",
-            info: reserva
+            info: responseDb
         })
     } catch (error) {
         const message = "Ha ocurrido un error en la consulta de reservas."
