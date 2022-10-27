@@ -10,6 +10,25 @@
         <i class="nc-icon nc-circle-09"></i>
         <p>Perfil</p>
       </sidebar-link>
+      
+      <sidebar-link to="/admin/aviones">
+        <i class="nc-icon nc-air-baloon"></i>
+        <p>Aviones</p>
+      </sidebar-link>
+      <sidebar-link to="/admin/reservas">
+        <i class="nc-icon nc-email-83"></i>
+        <p>Reservas</p>
+      </sidebar-link>
+      <sidebar-link to="/admin/usuarios">
+        <i class="nc-icon nc-badge"></i>
+        <p>Usuarios</p>
+      </sidebar-link>
+
+      <sidebar-link  @click="cerrarSesion" to="/">
+        <i class="nc-icon nc-simple-remove"></i>
+        <p>Salir</p>
+      </sidebar-link>
+
     </side-bar>
     <div class="main-panel">
       <top-navbar></top-navbar>
@@ -37,6 +56,10 @@ export default {
         this.$sidebar.displaySidebar(false);
       }
     },
+    cerrarSesion(){
+      localStorage.removeItem("user")
+      console.log("sesion cerrada")
+    }
   },
 };
 </script>

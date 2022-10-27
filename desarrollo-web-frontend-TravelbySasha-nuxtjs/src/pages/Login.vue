@@ -88,7 +88,7 @@ export default {
           "correo": this.idLogin,
           "contraseña": this.passwordLogin
         }
-        console.log(this.idLogin, this.passwordLogin)
+        
         let url = "http://localhost:8000/login"
         let response = await fetch(url, {
           method: 'POST',
@@ -102,15 +102,16 @@ export default {
         if(data.message=="0"){
 
         
-        console.log(data)
+       
         localStorage.setItem('user', JSON.stringify(data.info))
-        console.log(localStorage.getItem('user'))
+        
         Swal.fire({
           icon: 'success',
           title: 'Bienvenido',
           text: 'has iniciado sesión!',
           
         })
+        this.$router.push({ path: '/home' })
       }else if(data.message=="1"){
         Swal.fire({
           icon: 'error',
@@ -168,6 +169,7 @@ export default {
           text: 'te has registrado!',
           
         })
+
         }
         
       }

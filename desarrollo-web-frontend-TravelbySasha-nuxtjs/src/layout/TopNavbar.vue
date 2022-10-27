@@ -16,9 +16,7 @@
       </button>
       <div class="collapse navbar-collapse justify-content-end">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a href="#" class="nav-link"> Salir </a>
-          </li>
+          
         </ul>
       </div>
     </div>
@@ -52,7 +50,8 @@ export default {
     },
     hideSidebar() {
       this.$sidebar.displaySidebar(false);
-    },
+    }
+    
   },
 };
 </script>
