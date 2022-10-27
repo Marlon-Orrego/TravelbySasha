@@ -45,6 +45,7 @@
                     required />
 
                   <center><input type="submit" class="btn btn-primary" @click="doRegister" /></center>
+                  
                   <p>
                     Ya tienes una cuenta?
                     <a href="#" @click="

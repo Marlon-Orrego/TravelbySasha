@@ -7,7 +7,7 @@
       <div class="logo">
         <a href="#" class="simple-text logo__container">
             <div class="logo-img">
-                <img src="img/vue-logo.png" alt="">
+              <i id="icon" class="nc-icon nc-spaceship"></i>
             </div>
           TravelbySASHA
         </a>
@@ -90,6 +90,9 @@
 
 </script>
 <style>
+#icon{
+  color: black;
+}
   .sidebar .sidebar-wrapper {
     display: flex;
     flex-direction: column;
