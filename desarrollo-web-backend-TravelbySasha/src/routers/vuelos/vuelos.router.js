@@ -34,11 +34,11 @@ router.post('/vuelos', async (req, res) => {
 router.get('/vuelos', async (req, res) => {
     try {
         const responseDb = await getDocuments('sasha', 'vuelos')
-        const vuelo = Vuelos.removePassword(responseDb)
+        
         res.send({
             ok: true,
             message: "vuelos consultados",
-            info: vuelo
+            info: responseDb
         })
     } catch (error) {
         const message = "Ha ocurrido un error en la consulta de vuelos."

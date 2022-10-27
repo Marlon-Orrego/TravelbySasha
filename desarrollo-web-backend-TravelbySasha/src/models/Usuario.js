@@ -1,6 +1,6 @@
 const { createHash } = require("../controllers/bcrypt");
 
-
+ 
 class Usuario {
 
     constructor({ IdUsuario, nombre, tipo, contraseña, correo }) {
