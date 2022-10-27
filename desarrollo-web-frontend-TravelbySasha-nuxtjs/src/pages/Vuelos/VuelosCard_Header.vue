@@ -3,7 +3,8 @@
     <header>
       <div class="d-flex justify-content-center align-items-center h-100">
         <div class="text-black">
-          <h1>Vuelos Registrados</h1>
+          <h3>Vuelos Registrados</h3><hr>
+
         </div>
       </div>
     </header>
