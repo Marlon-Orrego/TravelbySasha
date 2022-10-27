@@ -3,7 +3,7 @@
     <header>
       <div class="d-flex justify-content-center align-items-center h-100">
         <div class="text-black">
-          <h1>Aviones Registrados</h1>
+          <h1>Vuelos Registrados</h1>
         </div>
       </div>
     </header>

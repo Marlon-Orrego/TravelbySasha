@@ -3,8 +3,8 @@
 
 class Avion {
 
-    constructor({ IdAvion, nombre, capacidad, tipo }) {
-        this.IdAvion = IdAvion;
+    constructor({nombre, capacidad, tipo }) {
+        
         this.nombre = nombre;
         this.capacidad = capacidad;
         this.tipo = tipo;

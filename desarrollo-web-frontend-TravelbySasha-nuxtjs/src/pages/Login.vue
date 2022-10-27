@@ -81,6 +81,17 @@ export default {
   },
   methods: {
     async doLogin() {
+      event.preventDefault();
+      Swal.fire({
+        icon:'info',
+        text:'Iniciando sesión...',
+        didOpen:()=>{
+          
+          Swal.showLoading()
+        }
+      })
+
+      
       if (this.idLogin === "" || this.passwordLogin === "") {
         this.emptyFields = true;
       } else {

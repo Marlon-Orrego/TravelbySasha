@@ -1,20 +1,22 @@
 <template>
   <center>
-    <CRow :xs="{ cols: 1, gutter: 4 }" :md="{ cols: 3 }" v-show="!editProfile">
-      <CCol xs v-for="d in data">
-        <div slot="header" class="icon-success">
-              <i class="nc-icon nc-single-02"></i>
-            </div>
-            <div slot="content">
-              <p class="card-tittle">{{ d.nombre }}</p>
-              <h4 class="card-title">Tiempo: {{ d.correo }}</h4>
-              <br>
-            <button v-on:click="consultarUsuario(d)">Editar</button>
-            <p> </p>
-            <button v-on:click="borrarUsuario(d)">Borrar</button>
-            </div>
-      </CCol>
-    </CRow>
+    <center>
+        <CRow :xs="{ cols: 1, gutter: 4 }" :md="{ cols: 3 }" v-show="!editProfile ">
+            <CCol xs v-for="d in data">    
+                    <stats-card style="width: 18rem">
+                        <div slot="header" class="icon-success">
+                            <i class="nc-icon nc-send"></i>
+                        </div>
+                        <div slot="content">
+                            <p class="card-tittle">Id Vuelo: {{d.nombre }}</p>
+                            <h4 class="card-title">Reserva: {{ d.correo }}</h4>
+                            <button v-on:click="consultarUsuario(d)">Editar</button>
+                            <button v-on:click="borrarUsuario(d)">Borrar</button>
+                        </div>
+                    </stats-card>  
+            </CCol>
+        </CRow>
+    </center>
     <div v-show="editProfile">
       <template>
         <center>
