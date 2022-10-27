@@ -1,5 +1,5 @@
-<template>
-  <card>
+<template >
+  <card class="background">
     <div id="app">
       <div class="login-page">
         <transition name="fade">
@@ -12,37 +12,39 @@
             <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
               <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }">
                 <center>
-                  <h1>Iniciar Sesión</h1>
+                  <h3>Iniciar Sesión</h3>
+                  <hr>
                 </center>
                 <form class="form-group">
-                  <input v-model="idLogin" type="email" class="form-control" placeholder="correo*"
+                  <input v-model="idLogin" type="email" class="form-control" placeholder="Correo"
                     required />
-                  <input v-model="passwordLogin" type="password" class="form-control" placeholder="Contraseña*"
+                  <input v-model="passwordLogin" type="password" class="form-control" placeholder="Contraseña"
                     required />
-                  <input type="submit" class="btn btn-primary" @click="doLogin" />
-                  <p>
+                  <center><input type="submit" class="btn btn-primary" @click="doLogin" /></center>
+                  <center><p>
                     No tienes una cuenta?
                     <a href="#" @click="
                       (registerActive = !registerActive),
                       (emptyFields = false)
                     ">Registrate aquí.</a>
-                  </p>
+                  </p></center>
                 </form>
               </div>
 
               <div v-else class="card register" v-bind:class="{ error: emptyFields }">
                 <Center>
-                  <h1>Registrate</h1>
+                  <h3>Registrate</h3>
+                  <hr>
                 </Center>
                 <form class="form-group">
-                  <input v-model="correoReg" type="email" class="form-control" placeholder="correo*" required />
+                  <input v-model="correoReg" type="email" class="form-control" placeholder="Correo*" required />
                   <input v-model="idReg" type="number" class="form-control" placeholder="C.C" required />
                   <input v-model="nameReg" type="text" class="form-control" placeholder="Nombre Completo" required />
                   <input v-model="passwordReg" type="password" class="form-control" placeholder="Contraseña" required />
                   <input v-model="confirmReg" type="password" class="form-control" placeholder="Confirmar Contraseña"
                     required />
 
-                  <input type="submit" class="btn btn-primary" @click="doRegister" />
+                  <center><input type="submit" class="btn btn-primary" @click="doRegister" /></center>
                   <p>
                     Ya tienes una cuenta?
                     <a href="#" @click="
