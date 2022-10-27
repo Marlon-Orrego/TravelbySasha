@@ -1,21 +1,21 @@
+
 <template>
   <div class="content">
+    <AvionesCard_Header></AvionesCard_Header>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-8">
-          
-        </div>
-        <div class="col-md-4">
-          
-        </div>
+        <AvionesCard></AvionesCard>
       </div>
     </div>
   </div>
 </template>
 <script>
-  
-
+import AvionesCard_Header from "./Aviones/AvionesCard_Header.vue";
+import AvionesCard from "./Aviones/AvioneCard.vue";
+export default {
+  components: {
+    AvionesCard,
+    AvionesCard_Header,
+  },
+};
 </script>
-<style>
-
-</style>

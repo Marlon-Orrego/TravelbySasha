@@ -1,31 +1,21 @@
+
 <template>
   <div class="content">
+    <ReservasCard_Header></ReservasCard_Header>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-8">
-          <edit-profile-form>
-          </edit-profile-form>
-        </div>
-        <div class="col-md-4">
-          <user-card>
-          </user-card>
-        </div>
+        <ReservasCard></ReservasCard>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import EditProfileForm from './UserProfile/EditProfileForm.vue'
-  import UserCard from './UserProfile/UserCard.vue'
-
-  export default {
-    components: {
-      EditProfileForm,
-      UserCard
-    }
-  }
-
+import ReservasCard_Header from "./Reservas/ReservasCard_Header.vue";
+import ReservasCard from "./Reservas/ReservasCard.vue";
+export default {
+  components: {
+    ReservasCard,
+    ReservasCard_Header,
+  },
+};
 </script>
-<style>
-
-</style>
