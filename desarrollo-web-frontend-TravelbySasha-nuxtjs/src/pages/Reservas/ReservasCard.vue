@@ -1,21 +1,57 @@
 <template>
     <center>
-        <CRow :xs="{ cols: 1, gutter: 4 }" :md="{ cols: 3 }">
-            <CCol xs v-for="d in data">    
-                    <stats-card style="width: 18rem">
-                        <div slot="header" class="icon-success">
-                            <i class="nc-icon nc-send"></i>
-                        </div>
-                        <div slot="content">
-                            <p class="card-tittle">Id Vuelo: {{ d.IdVuelo }}</p>
-                            <h4 class="card-title">Reserva: {{ d.IdUsuario }}</h4>
-                            <h4 class="card-category">Precio: {{ d.precio }}$</h4>
-                            <button class="btn btn-danger" v-on:click="eliminarReserva(d._id)">Eliminar</button>
-                        </div>
-                    </stats-card>  
+        <CRow :xs="{ cols: 2, gutter: 3 }" :md="{ cols: 2 }" v-show="!reservaEdit" >
+            <CCol xs v-for="d in data">
+                <stats-card style="width: 23rem; height: 13rem;">
+                    <div slot="header" class="icon-success">
+                        <i class="nc-icon nc-send"></i>
+                    </div>
+                    <div slot="content">
+                        <p class="card-tittle">Id Vuelo: {{ d.IdVuelo }}</p>
+                        <h4 class="card-title">Reserva: {{ d.IdUsuario }}</h4>
+                        <h4 class="card-category">Precio: {{ d.precio }}$</h4>
+                    </div>
+                    <div slot="footer">
+                                <button class="btn btn-light" v-on:click="consultarReserva(d)">Editar</button>
+                                <button class="btn btn-danger" v-on:click="eliminarReserva(d._id)">Eliminar</button>
+                            
+                    </div>
+                </stats-card>
             </CCol>
         </CRow>
+        <div v-show="reservaEdit">
+            
+            <h4 slot="header" class="card-title">Edit Profile</h4>
+            <form>
+              <div class="row">
+                <div class="col-md-5">
+                  <base-input type="text" label="Id del vuelo" placeholder="id vuelo"
+                    v-model="dataEdit.IdVuelo">
+                  </base-input>
+                </div>
+                <div class="col-md-3">
+                  <base-input type="text" label="IdUsuario" placeholder="id del usuario" v-model="dataEdit.IdUsuario">
+                  </base-input>
+                </div>
+                <div class="col-md-4">
+                  <base-input type="number" label="precio" placeholder="precio" v-model="dataEdit.precio">
+                  </base-input>
+                </div>
+              </div>
+              <center>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-info btn-fill float-right"
+                    @click.prevent="updateReserva(dataEdit._id)">
+                    Actualizar reserva
+                  </button>
+                </div>
+              </center>
+              <div class="clearfix"></div>
+            </form>
+          
+        </div>
     </center>
+    
 </template>
 <script>
 import StatsCard from "src/components/Cards/StatsCard.vue";
@@ -42,9 +78,15 @@ export default {
     },
     data() {
         return {
-            registerActive: false,
+            reservaEdit:false,
             emptyFields: false,
             data: [],
+            dataEdit:{
+                _id:"",
+                IdVuelo:"",
+                IdUsuario:"",
+                precio:""
+            }
         };
     },
     methods: {
@@ -59,10 +101,11 @@ export default {
             }
         },
         async consultarReserva(d) {
-            let url = "http://localhost:8000/reservas/" + d._id;
-            let response = await fetch(url);
-            let promise = await response.json();
-            let datos = promise.info;
+            this.reservaEdit=true
+            this.dataEdit.IdUsuario=d.IdUsuario
+            this.dataEdit.IdVuelo=d.IdVuelo
+            this.dataEdit.precio=d.precio
+            this.dataEdit._id=d._id
         },
         async eliminarReserva(idReserva) {
             let url = "http://localhost:8000/reservas/" + idReserva;
@@ -80,13 +123,44 @@ export default {
                     text: "no se pudo elimina la reserva!",
                 });
             } else {
-                Swal.fire({
+                await Swal.fire({
                     icon: "success",
                     title: "Modificación Realizada",
                     text: "reserva eliminada!",
                 });
+                location.reload()
             }
         },
+        async updateReserva(id) {
+            let url = "http://localhost:8000/reservas/" + id;
+
+            let response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(this.dataEdit)
+            });
+            console.log(response)
+            let info = await response.json()
+            if (info.message == 'Reserva actualizada.') {
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Excelente',
+                    text: 'Reserva editada con éxito!',
+
+                })
+                location.reload()
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'oh no...',
+                    text: 'Ha ocurrido un error actualizando la reserva',
+
+                })
+            }
+            console.log(await response.json())
+        }
     },
     async mounted() {
         let url = "http://localhost:8000/reservas";

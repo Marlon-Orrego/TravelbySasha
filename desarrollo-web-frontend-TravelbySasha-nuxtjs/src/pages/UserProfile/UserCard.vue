@@ -1,17 +1,23 @@
 <template>
   <center>
     <center>
-        <CRow :xs="{ cols: 1, gutter: 4 }" :md="{ cols: 3 }" v-show="!editProfile ">
+        <CRow :xs="{ cols: 1, gutter: 4 }" :md="{ cols: 2 }" v-show="!editProfile ">
             <CCol xs v-for="d in data">    
-                    <stats-card style="width: 18rem">
+                    <stats-card style="width: 23rem; height:12rem">
                         <div slot="header" class="icon-success">
                             <i class="nc-icon nc-send"></i>
                         </div>
                         <div slot="content">
-                            <p class="card-tittle">Id Vuelo: {{d.nombre }}</p>
-                            <h4 class="card-title">Reserva: {{ d.correo }}</h4>
-                            <button class="btn btn-light" v-on:click="consultarUsuario(d)">Editar</button>
-                            <button class="btn btn-danger" v-on:click="borrarUsuario(d)">Eliminar</button>
+                            <p class="card-tittle">Nombre: {{d.nombre }}</p>
+                            <h4 class="card-title">Correo: {{ d.correo }}</h4>
+                            <table>
+                              <tr>
+                                <td><button class="btn btn-light" v-on:click="consultarUsuario(d)">Editar</button></td>
+                                <td><button class="btn btn-danger" v-on:click="borrarUsuario(d)">Eliminar</button></td>
+                              </tr>
+                            </table>
+                            
+                            
                         </div>
                     </stats-card>  
             </CCol>
@@ -154,7 +160,21 @@ export default {
         }
 
       });
-      console.log(await response.json())
+      let data = await response.json();
+            if (data.message == "0") {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "no se pudo elimina el usuario!",
+                });
+            } else {
+                await Swal.fire({
+                    icon: "success",
+                    title: "Modificación Realizada",
+                    text: "usuario eliminado!",
+                });
+                location.reload()
+            }
     }
   },
   async mounted() {
