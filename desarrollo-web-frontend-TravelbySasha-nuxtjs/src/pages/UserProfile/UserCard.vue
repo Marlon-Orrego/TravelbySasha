@@ -10,8 +10,8 @@
                         <div slot="content">
                             <p class="card-tittle">Id Vuelo: {{d.nombre }}</p>
                             <h4 class="card-title">Reserva: {{ d.correo }}</h4>
-                            <button v-on:click="consultarUsuario(d)">Editar</button>
-                            <button v-on:click="borrarUsuario(d)">Borrar</button>
+                            <button class="btn btn-light" v-on:click="consultarUsuario(d)">Editar</button>
+                            <button class="btn btn-danger" v-on:click="borrarUsuario(d)">Eliminar</button>
                         </div>
                     </stats-card>  
             </CCol>

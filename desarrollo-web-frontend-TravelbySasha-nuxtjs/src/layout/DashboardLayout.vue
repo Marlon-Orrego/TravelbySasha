@@ -6,10 +6,7 @@
         <i class="nc-icon nc-planet"></i>
         <p>Inicio</p>
       </sidebar-link>
-      <sidebar-link to="/admin/user">
-        <i class="nc-icon nc-circle-09"></i>
-        <p>Perfil</p>
-      </sidebar-link>
+      
       
       <sidebar-link to="/admin/aviones">
         <i class="nc-icon nc-air-baloon"></i>

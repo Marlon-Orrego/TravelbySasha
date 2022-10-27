@@ -10,7 +10,7 @@
                             <p class="card-tittle">Id Vuelo: {{ d.IdVuelo }}</p>
                             <h4 class="card-title">Reserva: {{ d.IdUsuario }}</h4>
                             <h4 class="card-category">Precio: {{ d.precio }}$</h4>
-                            <button v-on:click="eliminarReserva(d._id)">Eliminar</button>
+                            <button class="btn btn-danger" v-on:click="eliminarReserva(d._id)">Eliminar</button>
                         </div>
                     </stats-card>  
             </CCol>
