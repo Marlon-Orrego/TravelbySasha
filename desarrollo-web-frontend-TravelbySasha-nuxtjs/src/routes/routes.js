@@ -9,8 +9,9 @@ import Login from "src/pages/Login.vue";
 import Aviones from "src/pages/Aviones.vue";
 import Reservas from "src/pages/Reservas.vue";
 import Usuarios from "src/pages/Usuarios.vue";
-import Vuelos from "src/pages/Vuelos.vue";
+import otros from "src/pages/otro.vue";
 
+import Vuelos from "src/pages/Vuelos.vue";
 
 const routes = [
   {
@@ -58,9 +59,14 @@ const routes = [
         name: "usuarios",
         component: Usuarios,
       },
+      {
+        path: "otros",
+        name: "otros",
+        component: otros,
+      },
     ],
   },
-  { path: '*', component: NotFound }
+  { path: "*", component: NotFound },
 ];
 
 export default routes;

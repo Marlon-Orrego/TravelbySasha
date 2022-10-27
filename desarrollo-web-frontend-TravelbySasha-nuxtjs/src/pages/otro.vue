@@ -1,37 +1,32 @@
 <template>
-  <center>
-    <CRow :xs="{ cols: 1, gutter: 4 }" :md="{ cols: 3 }">
-      <CCol xs v-for="d in data" @click="consultarUsuario(d)">
-        <CCard style="width: 18rem">
-          <CCardBody>
-            <CCardTitle>{{ d.nombre }}</CCardTitle
-            ><br />
-            <CCardText>{{ d.correo }}</CCardText>
-          </CCardBody>
-        </CCard>
-      </CCol>
-    </CRow>
-  </center>
+  <CRow :xs="{ cols: 1, gutter: 4 }" :md="{ cols: 3 }">
+    <CCol xs v-for="d in data" @click="consultarUsuario(d)">
+      <CCard>
+        <CCardBody>
+          <CCardTitle>{{ d.nombre }}</CCardTitle
+          ><br />
+          <CCardText
+            >This is a wider card with supporting text below as a natural
+            lead-in to additional content. This content is a little bit
+            longer.</CCardText
+          >
+        </CCardBody>
+        <CCardFooter
+          ><small class="text-muted"
+            >Last updated 3 mins ago</small
+          ></CCardFooter
+        >
+      </CCard>
+    </CCol>
+  </CRow>
 </template>
 <script>
-import {
-  CRow,
-  CCard,
-  CCol,
-  CCardBody,
-  CCardTitle,
-  CCardText,
-  CCardFooter,
-} from "@coreui/bootstrap-vue";
+import { CRow, CCard, CCol } from "@coreui/bootstrap-vue";
 export default {
   components: {
     CRow,
     CCard,
     CCol,
-    CCardBody,
-    CCardTitle,
-    CCardText,
-    CCardFooter,
   },
   data() {
     return {
