@@ -145,10 +145,13 @@ export default {
     async consultarUsuario(d) {
       this.editProfile = true;
       let url = "http://localhost:8000/usuarios/" + d._id;
-      let response = await fetch(url);
+      let token = localStorage.getItem("user-token");
+      token = token.slice(1, -1);
+      const headers = { authorization: `Bearer ${token}` };
+
+      let response = await fetch(url, { headers });
       let promise = await response.json();
       let datos = promise.info;
-      console.log(datos);
       this.dataEdit.IdUsuario = datos.IdUsuario;
       this.dataEdit.nombre = datos.nombre;
       this.dataEdit.correo = datos.correo;
@@ -159,13 +162,15 @@ export default {
       let url = "http://localhost:8000/usuarios/" + id;
       let token = localStorage.getItem("user-token");
       token = token.slice(1, -1);
-      const headers = { authorization: `Bearer ${token}` };
-
       let response = await fetch(url, {
         method: "PUT",
-        headers,
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(this.dataEdit),
       });
+
       let info = await response.json();
       if (info.message == "Usuario actualizado.") {
         await Swal.fire({

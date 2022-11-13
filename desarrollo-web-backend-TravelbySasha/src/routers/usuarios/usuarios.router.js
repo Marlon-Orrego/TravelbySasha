@@ -100,10 +100,10 @@ router.get("/usuarios/:id", middlewareToken, async (req, res) => {
 
 router.put("/usuarios/:id", middlewareToken, async (req, res) => {
   try {
+    console.log(req);
     const id = req.params.id;
     const userObject = req.body;
     const user = new Users(userObject);
-
     const responseDb = await updateDocumentById("sasha", "usuarios", {
       id,
       data: user.initUser(),

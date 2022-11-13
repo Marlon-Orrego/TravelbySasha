@@ -40,6 +40,7 @@ import {
   CCardText,
   CCardFooter,
 } from "@coreui/bootstrap-vue";
+import Swal from "sweetalert2";
 import StatsCard from "src/components/Cards/StatsCard.vue";
 export default {
   components: {
@@ -70,7 +71,7 @@ export default {
         return "col-md";
       }
     },
-    async consultarUsuario(d) {
+    async consultarAvion(d) {
       let url = "http://localhost:8000/aviones/" + d._id;
       let token = localStorage.getItem("user-token");
       token = token.slice(1, -1);
@@ -78,6 +79,31 @@ export default {
       let response = await fetch(url, { headers });
       let promise = await response.json();
       let datos = promise.info;
+    },
+    async borrarAvion(id) {
+      let url = "http://localhost:8000/aviones/" + id._id;
+      let token = localStorage.getItem("user-token");
+      token = token.slice(1, -1);
+      const headers = { authorization: `Bearer ${token}` };
+      let response = await fetch(url, {
+        method: "DELETE",
+        headers,
+      });
+      let data = await response.json();
+      if (data.message == "0") {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "no se pudo elimina el avión!",
+        });
+      } else {
+        await Swal.fire({
+          icon: "success",
+          title: "Modificación Realizada",
+          text: "avión eliminado!",
+        });
+        location.reload();
+      }
     },
   },
   async mounted() {

@@ -159,14 +159,14 @@ export default {
     },
     async updateVuelo(id) {
       let url = "http://localhost:8000/vuelos/" + id;
-      console.log(this.dataEdit);
       let token = localStorage.getItem("user-token");
       token = token.slice(1, -1);
-      const headers = { authorization: `Bearer ${token}` };
-
       let response = await fetch(url, {
         method: "PUT",
-        headers,
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(this.dataEdit),
       });
       console.log(response);
