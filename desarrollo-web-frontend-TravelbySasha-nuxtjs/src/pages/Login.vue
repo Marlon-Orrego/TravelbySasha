@@ -224,22 +224,22 @@ export default {
           contraseña: this.passwordReg,
         };
         let url = "http://localhost:8000/usuario";
+        let token =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzZlZGEzN2FkNzg2ZTBlMjlmZjZkZDIiLCJJZFVzdWFyaW8iOiIxMDAwNDEzNzQxIiwibm9tYnJlIjoiTWFybG9uIE9ycmVnbyIsInRpcG8iOiJ1c2VyIiwiY29ycmVvIjoibWFybG9ucmVzdHJlcG9AZ21haWwuY29tIiwiaWF0IjoxNjY4MjEwNTU5fQ.Pl9SdO_ZSYaQAZszVGZ4brB-woszU-gMec4LCqJw2eU";
+        const headers = { authorization: `Bearer ${token}` };
         let response = await fetch(url, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
+          headers,
           body: JSON.stringify(user),
         });
         let data = await response.json();
-        console.log(data);
-        if (data.message == "0") {
+        if (data.message == "Usuario no creado") {
           Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "usuario ya registrado!",
           });
-        } else {
+        } else if (data.message == "Usuario Creado.") {
           Swal.fire({
             icon: "success",
             title: "Bienvenido",
