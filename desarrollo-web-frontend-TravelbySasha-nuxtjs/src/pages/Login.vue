@@ -1,4 +1,4 @@
-<template >
+<template>
   <card class="background">
     <div id="app">
       <div class="login-page">
@@ -10,48 +10,117 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-              <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }">
+              <div
+                v-if="!registerActive"
+                class="card login"
+                v-bind:class="{ error: emptyFields }"
+              >
                 <center>
                   <h3>Iniciar Sesión</h3>
-                  <hr>
+                  <hr />
                 </center>
                 <form class="form-group">
-                  <input v-model="idLogin" type="email" class="form-control" placeholder="Correo"
-                    required />
-                  <input v-model="passwordLogin" type="password" class="form-control" placeholder="Contraseña"
-                    required />
-                  <center><input type="submit" class="btn btn-primary" @click="doLogin" /></center>
-                  <center><p>
-                    No tienes una cuenta?
-                    <a href="#" @click="
-                      (registerActive = !registerActive),
-                      (emptyFields = false)
-                    ">Registrate aquí.</a>
-                  </p></center>
+                  <input
+                    v-model="idLogin"
+                    type="email"
+                    class="form-control"
+                    placeholder="Correo"
+                    required
+                  />
+                  <input
+                    v-model="passwordLogin"
+                    type="password"
+                    class="form-control"
+                    placeholder="Contraseña"
+                    required
+                  />
+                  <center>
+                    <input
+                      type="submit"
+                      class="btn btn-primary"
+                      @click="doLogin"
+                    />
+                  </center>
+                  <center>
+                    <p>
+                      No tienes una cuenta?
+                      <a
+                        href="#"
+                        @click="
+                          (registerActive = !registerActive),
+                            (emptyFields = false)
+                        "
+                        >Registrate aquí.</a
+                      >
+                    </p>
+                  </center>
                 </form>
               </div>
 
-              <div v-else class="card register" v-bind:class="{ error: emptyFields }">
+              <div
+                v-else
+                class="card register"
+                v-bind:class="{ error: emptyFields }"
+              >
                 <Center>
                   <h3>Registrate</h3>
-                  <hr>
+                  <hr />
                 </Center>
                 <form class="form-group">
-                  <input v-model="correoReg" type="email" class="form-control" placeholder="Correo*" required />
-                  <input v-model="idReg" type="number" class="form-control" placeholder="C.C" required />
-                  <input v-model="nameReg" type="text" class="form-control" placeholder="Nombre Completo" required />
-                  <input v-model="passwordReg" type="password" class="form-control" placeholder="Contraseña" required />
-                  <input v-model="confirmReg" type="password" class="form-control" placeholder="Confirmar Contraseña"
-                    required />
+                  <input
+                    v-model="correoReg"
+                    type="email"
+                    class="form-control"
+                    placeholder="Correo*"
+                    required
+                  />
+                  <input
+                    v-model="idReg"
+                    type="number"
+                    class="form-control"
+                    placeholder="C.C"
+                    required
+                  />
+                  <input
+                    v-model="nameReg"
+                    type="text"
+                    class="form-control"
+                    placeholder="Nombre Completo"
+                    required
+                  />
+                  <input
+                    v-model="passwordReg"
+                    type="password"
+                    class="form-control"
+                    placeholder="Contraseña"
+                    required
+                  />
+                  <input
+                    v-model="confirmReg"
+                    type="password"
+                    class="form-control"
+                    placeholder="Confirmar Contraseña"
+                    required
+                  />
 
-                  <center><input type="submit" class="btn btn-primary" @click="doRegister" /></center>
-                  
+                  <center>
+                    <input
+                      type="submit"
+                      class="btn btn-primary"
+                      @click="doRegister"
+                    />
+                  </center>
+
                   <p>
                     Ya tienes una cuenta?
-                    <a href="#" @click="
-  (registerActive = !registerActive),
-  (emptyFields = false)
-                    ">Inicia sesión aquí</a>
+                    <a
+                      href="#"
+                      @click="
+                        (registerActive = !registerActive),
+                          (emptyFields = false)
+                      "
+                      >Inicia sesión aquí</a
+                    >
                   </p>
                 </form>
               </div>
@@ -64,7 +133,7 @@
 </template>
 <script>
 import Card from "src/components/Cards/Card.vue";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 export default {
   components: {
     Card,
@@ -78,7 +147,7 @@ export default {
       passwordReg: "",
       confirmReg: "",
       nameReg: "",
-      correoReg:"",
+      correoReg: "",
       emptyFields: false,
     };
   },
@@ -86,62 +155,57 @@ export default {
     async doLogin() {
       event.preventDefault();
       Swal.fire({
-        icon:'info',
-        text:'Iniciando sesión...',
-        didOpen:()=>{
-          
-          Swal.showLoading()
-        }
-      })
+        icon: "info",
+        text: "Iniciando sesión...",
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
 
-      
       if (this.idLogin === "" || this.passwordLogin === "") {
         this.emptyFields = true;
       } else {
         let user = {
-          "correo": this.idLogin,
-          "contraseña": this.passwordLogin
-        }
-        
-        let url = "http://localhost:8000/login"
+          correo: this.idLogin,
+          contraseña: this.passwordLogin,
+        };
+
+        let url = "http://localhost:8000/login";
         let response = await fetch(url, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            "Content-Type": "application/json;charset=utf-8",
           },
-          body: JSON.stringify(user)
+          body: JSON.stringify(user),
         });
+        console.log(response);
 
         let data = await response.json();
-        if(data.message=="0"){
+        if (data.message == "Usuario Consultado") {
+          localStorage.setItem("user-logged", JSON.stringify(data.info));
+          localStorage.setItem("user-token", JSON.stringify(data.info.token));
 
-        
-       
-        localStorage.setItem('user', JSON.stringify(data.info))
-        
-        Swal.fire({
-          icon: 'success',
-          title: 'Bienvenido',
-          text: 'has iniciado sesión!',
-          
-        })
-        this.$router.push({ path: '/home' })
-      }else if(data.message=="1"){
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'correo o contraseña incorrecta!',
-          
-        })
-      }else if(data.message=="2"){
-        Swal.fire({
-          icon: 'info',
-          title: 'No tienes una cuenta?',
-          text: 'Resgistrate para ingresar.',
-          
-        })
+          Swal.fire({
+            icon: "success",
+            title: "Bienvenido",
+            text: "has iniciado sesión!",
+          });
+
+          this.$router.push({ path: "/home" });
+        } else if (data.message == "1") {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "correo o contraseña incorrecta!",
+          });
+        } else if (data.message == "2") {
+          Swal.fire({
+            icon: "info",
+            title: "No tienes una cuenta?",
+            text: "Resgistrate para ingresar.",
+          });
+        }
       }
-    }
     },
 
     async doRegister() {
@@ -152,51 +216,43 @@ export default {
       ) {
         this.emptyFields = true;
       } else {
-        let user={
-        
-        "IdUsuario": this.idReg,
-        "nombre": this.nameReg,
-        "tipo": "user",
-        "correo": this.correoReg,
-        "contraseña":this.passwordReg
-    }
-        let url = "http://localhost:8000/usuarios"
+        let user = {
+          IdUsuario: this.idReg,
+          nombre: this.nameReg,
+          tipo: "user",
+          correo: this.correoReg,
+          contraseña: this.passwordReg,
+        };
+        let url = "http://localhost:8000/usuario";
         let response = await fetch(url, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            "Content-Type": "application/json;charset=utf-8",
           },
-          body: JSON.stringify(user)
+          body: JSON.stringify(user),
         });
         let data = await response.json();
-        if(data.message=="0"){
+        console.log(data);
+        if (data.message == "0") {
           Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'usuario ya registrado!',
-          
-        })
-        }else{
+            icon: "error",
+            title: "Oops...",
+            text: "usuario ya registrado!",
+          });
+        } else {
           Swal.fire({
-          icon: 'success',
-          title: 'Bienvenido',
-          text: 'te has registrado!',
-          
-        })
-
+            icon: "success",
+            title: "Bienvenido",
+            text: "te has registrado!",
+          });
         }
-        
       }
     },
   },
 };
 </script>
-<style>
-
-</style>
+<style></style>
 <style lang="scss" scoped>
 @import "../assets/css/login.scss";
 </style>
-<style>
-
-</style>
+<style></style>

@@ -2,7 +2,7 @@
   <center>
     <CRow :xs="{ cols: 1, gutter: 4 }" :md="{ cols: 2 }" v-show="!vuelosEdit">
       <CCol xs v-for="d in data" @click="consultarUsuario(d)">
-        <stats-card style="width: 23rem; height: 16rem;">
+        <stats-card style="width: 23rem; height: 16rem">
           <div slot="header" class="icon-success">
             <i class="nc-icon nc-map-big"></i>
           </div>
@@ -13,44 +13,75 @@
             <h4 class="card-category">{{ d.FechaAterrizaje }}</h4>
           </div>
           <div slot="footer">
-            <button class="btn btn-light" v-on:click="consultarVuelo(d)">Editar</button>
-                <button class="btn btn-danger" v-on:click="borrarVuelo(d)">Eliminar</button>
-                <button class="btn btn-info" v-on:click="hacerReserva(d)">Reservar</button>
-             
+            <button class="btn btn-light" v-on:click="consultarVuelo(d)">
+              Editar
+            </button>
+            <button class="btn btn-danger" v-on:click="borrarVuelo(d)">
+              Eliminar
+            </button>
+            <button class="btn btn-info" v-on:click="hacerReserva(d)">
+              Reservar
+            </button>
           </div>
         </stats-card>
       </CCol>
-
     </CRow>
     <div v-show="vuelosEdit">
       <form>
         <div class="row">
           <div class="col-md-5">
-            <base-input type="text" label="Id del avion" placeholder="id avion" v-model="dataEdit.IdAvion">
+            <base-input
+              type="text"
+              label="Id del avion"
+              placeholder="id avion"
+              v-model="dataEdit.IdAvion"
+            >
             </base-input>
           </div>
           <div class="col-md-3">
-            <base-input type="text" label="Id del piloto" placeholder="id del piloto" v-model="dataEdit.IdPiloto">
+            <base-input
+              type="text"
+              label="Id del piloto"
+              placeholder="id del piloto"
+              v-model="dataEdit.IdPiloto"
+            >
             </base-input>
           </div>
           <div class="col-md-4">
-            <base-input type="date" label="Fecha de despegue" placeholder="Fecha de despegue"
-              v-model="dataEdit.FechaDespegue">
+            <base-input
+              type="date"
+              label="Fecha de despegue"
+              placeholder="Fecha de despegue"
+              v-model="dataEdit.FechaDespegue"
+            >
             </base-input>
           </div>
           <div class="col-md-4">
-            <base-input type="date" label="Fecha de aterrizaje" placeholder="Fecha de aterrizaje"
-              v-model="dataEdit.FechaAterrizaje">
+            <base-input
+              type="date"
+              label="Fecha de aterrizaje"
+              placeholder="Fecha de aterrizaje"
+              v-model="dataEdit.FechaAterrizaje"
+            >
             </base-input>
           </div>
           <div class="col-md-4">
-            <base-input type="number" label="Tiempo de vuelo" placeholder="Tiempo de vuelo" v-model="dataEdit.tiempo">
+            <base-input
+              type="number"
+              label="Tiempo de vuelo"
+              placeholder="Tiempo de vuelo"
+              v-model="dataEdit.tiempo"
+            >
             </base-input>
           </div>
         </div>
         <center>
           <div class="text-center">
-            <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="updateVuelo(dataEdit._id)">
+            <button
+              type="submit"
+              class="btn btn-info btn-fill float-right"
+              @click.prevent="updateVuelo(dataEdit._id)"
+            >
               Actualizar vuelo
             </button>
           </div>
@@ -59,8 +90,6 @@
       </form>
     </div>
   </center>
-
-
 </template>
 <script>
 import {
@@ -100,8 +129,8 @@ export default {
         IdAvion: "",
         FechaAterrizaje: "",
         FechaDespegue: "",
-        tiempo: 0
-      }
+        tiempo: 0,
+      },
     };
   },
   methods: {
@@ -116,56 +145,57 @@ export default {
       }
     },
     async consultarVuelo(d) {
-      this.vuelosEdit = true
+      this.vuelosEdit = true;
       let url = "http://localhost:8000/vuelos/" + d._id;
       let response = await fetch(url);
       let promise = await response.json();
       let datos = promise.info;
-      this.dataEdit._id = datos._id
-      this.dataEdit.IdPiloto = datos.IdPiloto
-      this.dataEdit.IdAvion = datos.IdAvion
-      this.dataEdit.FechaDespegue = datos.FechaDespegue
-      this.dataEdit.FechaAterrizaje = datos.FechaAterrizaje
-      this.dataEdit.tiempo=datos.Tiempo
+      this.dataEdit._id = datos._id;
+      this.dataEdit.IdPiloto = datos.IdPiloto;
+      this.dataEdit.IdAvion = datos.IdAvion;
+      this.dataEdit.FechaDespegue = datos.FechaDespegue;
+      this.dataEdit.FechaAterrizaje = datos.FechaAterrizaje;
+      this.dataEdit.tiempo = datos.Tiempo;
     },
     async updateVuelo(id) {
       let url = "http://localhost:8000/vuelos/" + id;
-      console.log(this.dataEdit)
-      let response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(this.dataEdit)
-      });
-      console.log(response)
-      let info = await response.json()
-      if (info.message == 'Vuelo actualizado.') {
-        await Swal.fire({
-          icon: 'success',
-          title: 'Excelente',
-          text: 'Vuelo editado con éxito!',
+      console.log(this.dataEdit);
+      let token = localStorage.getItem("user-token");
+      token = token.slice(1, -1);
+      const headers = { authorization: `Bearer ${token}` };
 
-        })
-        location.reload()
+      let response = await fetch(url, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(this.dataEdit),
+      });
+      console.log(response);
+      let info = await response.json();
+      if (info.message == "Vuelo actualizado.") {
+        await Swal.fire({
+          icon: "success",
+          title: "Excelente",
+          text: "Vuelo editado con éxito!",
+        });
+        location.reload();
       } else {
         Swal.fire({
-          icon: 'error',
-          title: 'oh no...',
-          text: 'Ha ocurrido un error actualizando el vuelo',
-
-        })
+          icon: "error",
+          title: "oh no...",
+          text: "Ha ocurrido un error actualizando el vuelo",
+        });
       }
-      console.log(await response.json())
+      console.log(await response.json());
     },
     async borrarVuelo(id) {
       let url = "http://localhost:8000/vuelos/" + id._id;
-      let response = await fetch(url, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        }
+      let token = localStorage.getItem("user-token");
+      token = token.slice(1, -1);
+      const headers = { authorization: `Bearer ${token}` };
 
+      let response = await fetch(url, {
+        method: "DELETE",
+        headers,
       });
       let data = await response.json();
       if (data.message == "0") {
@@ -180,13 +210,16 @@ export default {
           title: "Modificación Realizada",
           text: "vuelo eliminado!",
         });
-        location.reload()
+        location.reload();
       }
-    }
+    },
   },
   async mounted() {
     let url = "http://localhost:8000/vuelos";
-    let response = await fetch(url);
+    let token = localStorage.getItem("user-token");
+    token = token.slice(1, -1);
+    const headers = { authorization: `Bearer ${token}` };
+    let response = await fetch(url, { headers });
     let promise = await response.json();
     let datos = promise.info;
     this.data = datos;

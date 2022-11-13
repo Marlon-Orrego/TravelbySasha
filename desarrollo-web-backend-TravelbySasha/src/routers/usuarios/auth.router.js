@@ -23,27 +23,27 @@ router.post("/login", async (req, res) => {
         user.token = token;
         res.send({
           ok: true,
-          message: "0",
+          message: "Usuario Consultado",
           info: user,
         });
       } else {
         res.status(400).send({
           ok: true,
-          message: "1",
+          message: "Usuario y/o Contraseña Incorrecta",
           info: {},
         });
       }
     } else {
       res.status(400).send({
         ok: true,
-        message: "1",
+        message: "Usuario y/o Contraseña Incorrecta",
         info: {},
       });
     }
   } catch (error) {
     res.status(500).send({
       ok: true,
-      message: "2",
+      message: "Usuario NO consultado",
       info: error.toString(),
     });
   }

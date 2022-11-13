@@ -6,8 +6,7 @@
         <i class="nc-icon nc-planet"></i>
         <p>Inicio</p>
       </sidebar-link>
-      
-      
+
       <sidebar-link to="/admin/aviones">
         <i class="nc-icon nc-air-baloon"></i>
         <p>Aviones</p>
@@ -21,11 +20,12 @@
         <p>Usuarios</p>
       </sidebar-link>
 
-      <sidebar-link  @click="cerrarSesion" to="/">
-        <i class="nc-icon nc-simple-remove"></i>
-        <p>Salir</p>
+      <sidebar-link to="">
+        <div @click="cerrarSesion()">
+          <i class="nc-icon nc-simple-remove"></i>
+          <p>Salir</p>
+        </div>
       </sidebar-link>
-
     </side-bar>
     <div class="main-panel">
       <top-navbar></top-navbar>
@@ -53,10 +53,11 @@ export default {
         this.$sidebar.displaySidebar(false);
       }
     },
-    cerrarSesion(){
-      localStorage.removeItem("user")
-      console.log("sesion cerrada")
-    }
+    cerrarSesion() {
+      localStorage.clear();
+      console.log("sesion cerrada");
+      window.location.href = "/";
+    },
   },
 };
 </script>

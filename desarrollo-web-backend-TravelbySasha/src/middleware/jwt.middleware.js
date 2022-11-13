@@ -3,7 +3,7 @@ const { verifyToken } = require("../controllers/jwt");
 const middlewareToken = (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    const token = authorization ? authorization.replace("Bearer ", "") : null;
+    const token = authorization.replace("Bearer ", "");
     const user = verifyToken(token);
     req.user_logged = user;
     next();

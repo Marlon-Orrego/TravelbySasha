@@ -1,9 +1,8 @@
-
 <template>
   <div>
     <CRow :xs="{ cols: 1, gutter: 4 }" :md="{ cols: 2 }">
       <CCol xs v-for="d in data" @click="consultarUsuario(d)">
-        <stats-card style="width: 23rem; height: 13rem;">
+        <stats-card style="width: 23rem; height: 13rem">
           <div slot="header" class="icon-success">
             <i class="nc-icon nc-send"></i>
           </div>
@@ -13,8 +12,16 @@
             <h4 class="card-category">Tipo: {{ d.tipo }}</h4>
             <table>
               <tr>
-                <td><button class="btn btn-light" v-on:click="consultarAvion(d)">Editar</button></td>
-                <td><button class="btn btn-danger" v-on:click="borrarAvion(d)">Eliminar</button></td>
+                <td>
+                  <button class="btn btn-light" v-on:click="consultarAvion(d)">
+                    Editar
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-danger" v-on:click="borrarAvion(d)">
+                    Eliminar
+                  </button>
+                </td>
               </tr>
             </table>
           </div>
@@ -65,18 +72,23 @@ export default {
     },
     async consultarUsuario(d) {
       let url = "http://localhost:8000/aviones/" + d._id;
-      let response = await fetch(url);
+      let token = localStorage.getItem("user-token");
+      token = token.slice(1, -1);
+      const headers = { authorization: `Bearer ${token}` };
+      let response = await fetch(url, { headers });
       let promise = await response.json();
       let datos = promise.info;
     },
   },
   async mounted() {
     let url = "http://localhost:8000/aviones";
-    let response = await fetch(url);
+    let token = localStorage.getItem("user-token");
+    token = token.slice(1, -1);
+    const headers = { authorization: `Bearer ${token}` };
+    let response = await fetch(url, { headers });
     let promise = await response.json();
     let datos = promise.info;
     this.data = datos;
-    console.log(datos);
   },
 };
 </script>
