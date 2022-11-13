@@ -18,10 +18,9 @@ const router = express.Router();
 router.post("/usuario", async (req, res) => {
   try {
     const userObject = req.body;
-    userObject.create_by = req.user_logged.name;
+    console.log(userObject);
+    userObject.create_by = req.body.nombre;
     const user = new Users(userObject);
-
-    console.log(user);
     const validaCorreo = await getDocumentsWithFilter("sasha", "usuarios", {
       correo: user.correo,
     });
@@ -31,7 +30,7 @@ router.post("/usuario", async (req, res) => {
     if (validaCorreo.length > 0 || validaId.length > 0) {
       res.send({
         ok: true,
-        message: "0",
+        message: "Usuario no creado",
         info: {},
       });
     } else {
