@@ -165,15 +165,17 @@ export default {
     },
   },
   async mounted() {
+    let user=localStorage.getItem("user-logged")
+    user=JSON.parse(user)._id
     
-    let url = "http://localhost:8000/reservas";
+    let url = "http://localhost:8000/reservas/usuarios/"+user;
     let token = localStorage.getItem("user-token");
     token = token.slice(1, -1);
     const headers = { authorization: `Bearer ${token}` };
     let response = await fetch(url, { headers });
     let promise = await response.json();
     let datos = await promise.info;
-    this.data = datos;    
+    this.data = datos; 
   },
 };
 </script>

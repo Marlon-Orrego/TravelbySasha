@@ -3,8 +3,7 @@
 
 class Vuelo {
 
-    constructor({ IdVuelo, IdPiloto, IdAvion, FechaDespegue, FechaAterrizaje, Tiempo }) {
-        this.IdVuelo = IdVuelo;
+    constructor({IdPiloto, IdAvion, FechaDespegue, FechaAterrizaje, Tiempo }) {
         this.IdPiloto = IdPiloto;
         this.IdAvion = IdAvion;
         this.FechaDespegue = FechaDespegue;

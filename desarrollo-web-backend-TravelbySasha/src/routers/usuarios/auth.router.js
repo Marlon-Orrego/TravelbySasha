@@ -12,38 +12,38 @@ router.post("/login", async (req, res) => {
     let user = await getDocumentsWithFilter("sasha", "usuarios", {
       correo: credentials.correo,
     });
-
-    if (user.length == 1) {
+    console.log(user)
+    if (user.length >0) {
       user = user[0];
       const contraseñaIsEqual = compareHash(contraseña, user.contraseña);
       delete user.contraseña;
       if (contraseñaIsEqual === true) {
         //generando token
-        const token = createJsonWebToken(user);
+        const token = createJsonWebToken(user); 
         user.token = token;
         res.send({
           ok: true,
-          message: "Usuario Consultado",
+          message: "1",
           info: user,
         });
       } else {
         res.status(400).send({
           ok: true,
-          message: "Usuario y/o Contraseña Incorrecta",
+          message: "2",
           info: {},
         });
       }
     } else {
       res.status(400).send({
         ok: true,
-        message: "Usuario y/o Contraseña Incorrecta",
+        message: "2",
         info: {},
       });
     }
   } catch (error) {
     res.status(500).send({
       ok: true,
-      message: "Usuario NO consultado",
+      message: "2",
       info: error.toString(),
     });
   }

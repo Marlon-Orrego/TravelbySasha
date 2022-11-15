@@ -47,7 +47,7 @@
 <script>
 import AvionesCard_Header from "./Aviones/AvionesCard_Header.vue";
 import AvionesCard from "./Aviones/AvioneCard.vue";
-
+import Swal from "sweetalert2";
 export default {
   components: {
     AvionesCard,
@@ -68,20 +68,37 @@ export default {
       this.registro = true
     },
     async RegistrarAvion() {
-      let user={
-        "nombre":this.nombre,
-        "capacidad":this.Capacidad,
-        "tipo":this.tipo
+      let user = {
+        "nombre": this.nombre,
+        "capacidad": this.Capacidad,
+        "tipo": this.tipo
       }
       let url = "http://localhost:8000/aviones"
+      let token = localStorage.getItem("user-token");
+      token = token.slice(1, -1);
       let response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json;charset=utf-8'
+          "Content-Type": "application/json;charset=utf-8",
+          authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user),
       });
-      console.log(await response.json())
+      let promise=await response.json()
+      if (promise.message=="1"){
+        await Swal.fire({
+          icon: "success",
+          title: "Enhorabuena",
+          text: "Has creado un avión.",
+        });
+        window.location.reload()
+      }else{
+        Swal.fire({
+          icon: "error",
+          title: "oh no...",
+          text: "Ha ocurrido un error creando el avión.",
+        });
+      }
     }
   }
 };

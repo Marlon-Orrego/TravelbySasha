@@ -81,29 +81,45 @@ export default {
       let datos = promise.info;
     },
     async borrarAvion(id) {
+      let urlVuelos = "http://localhost:8000/vuelos/avion/" + id._id
       let url = "http://localhost:8000/aviones/" + id._id;
       let token = localStorage.getItem("user-token");
       token = token.slice(1, -1);
       const headers = { authorization: `Bearer ${token}` };
-      let response = await fetch(url, {
-        method: "DELETE",
+      let responseVuelos = await fetch(urlVuelos, {
+        method: "GET",
         headers,
       });
-      let data = await response.json();
-      if (data.message == "0") {
+      responseVuelos = await responseVuelos.json()
+      responseVuelos = responseVuelos.info
+      if (responseVuelos <= 0) {
+        let response = await fetch(url, {
+          method: "DELETE",
+          headers,
+        });
+        let data = await response.json();
+        if (data.message == "0") {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "no se pudo eliminar el avión!",
+          });
+        } else {
+          await Swal.fire({
+            icon: "success",
+            title: "Modificación Realizada",
+            text: "avión eliminado!",
+          });
+          location.reload();
+        }
+      } else {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "no se pudo elimina el avión!",
+          text: "no se pudo eliminar el avión!",
         });
-      } else {
-        await Swal.fire({
-          icon: "success",
-          title: "Modificación Realizada",
-          text: "avión eliminado!",
-        });
-        location.reload();
       }
+
     },
   },
   async mounted() {

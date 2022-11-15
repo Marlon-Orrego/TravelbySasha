@@ -7,6 +7,7 @@ const {
   getDocumentById,
   deleteDocumentById,
   updateDocumentById,
+  getDocumentsWithFilter
 } = require("../../controllers/MongoDb");
 const Vuelos = require("../../models/Vuelo");
 const { middlewareToken } = require("../../middleware/jwt.middleware");
@@ -74,7 +75,27 @@ router.get("/vuelos/:id", middlewareToken, async (req, res) => {
     });
   }
 });
-
+router.get("/vuelos/avion/:id", middlewareToken, async (req, res) => {
+  try {
+    const IdAvion = req.params.id;
+    let vuelo = await getDocumentsWithFilter("sasha", "vuelos", {
+      IdAvion
+    });
+    console.log(vuelo)
+    res.send({
+      ok: true,
+      message: "Vuelo consultado",
+      info: vuelo,
+    });
+  } catch (error) {
+    const message = "Ha ocurrido un error consultando el Vuelo.";
+    res.status(500).send({
+      ok: false,
+      message,
+      info: error.toString(),
+    });
+  }
+});
 router.put("/vuelos/:id", middlewareToken, async (req, res) => {
   try {
     const id = req.params.id;

@@ -7,6 +7,7 @@ const {
   getDocumentById,
   deleteDocumentById,
   updateDocumentById,
+  getDocumentsWithFilter,
 } = require("../../controllers/MongoDb");
 const Reserva = require("../../models/Reserva");
 const { middlewareToken } = require("../../middleware/jwt.middleware");
@@ -20,7 +21,7 @@ router.post("/reservas", async (req, res) => {
     const responseDb = await insertDocument("sasha", "reservas", reserva);
     res.send({
       ok: true,
-      message: "Reserva creada.",
+      message: "1",
       info: responseDb,
     });
   } catch (error) {
@@ -29,7 +30,7 @@ router.post("/reservas", async (req, res) => {
     } else {
       res.status(500).send({
         ok: true,
-        message: "Reserva NO creada.",
+        message: "2",
         info: error.toString(),
       });
     }
@@ -74,13 +75,34 @@ router.get("/reservas/:id", middlewareToken, async (req, res) => {
     });
   }
 });
+router.get("/reservas/usuarios/:id", middlewareToken, async (req, res) => {
+  try {
+    const IdUsuario = req.params.id;
+    const responseDb = await getDocumentsWithFilter("sasha", "reservas", {
+      IdUsuario
+    });
+
+    res.send({
+      ok: true,
+      message: "Reserva consultado",
+      info: responseDb,
+    });
+  } catch (error) {
+    const message = "Ha ocurrido un error consultando el Reserva.";
+    res.status(500).send({
+      ok: false,
+      message,
+      info: error.toString(),
+    });
+  }
+});
 
 router.put("/reservas/:id", middlewareToken, async (req, res) => {
   try {
+    
     const id = req.params.id;
     const reservaObject = req.body;
     const reserva = new Reserva(reservaObject);
-
     const responseDb = await updateDocumentById("sasha", "reservas", {
       id,
       data: reserva,

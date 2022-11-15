@@ -18,15 +18,14 @@ const router = express.Router();
 router.post("/usuario", async (req, res) => {
   try {
     const userObject = req.body;
-    console.log(userObject);
-    userObject.create_by = req.body.nombre;
     const user = new Users(userObject);
     const validaCorreo = await getDocumentsWithFilter("sasha", "usuarios", {
       correo: user.correo,
     });
     const validaId = await getDocumentsWithFilter("sasha", "usuarios", {
       IdUsuario: user.IdUsuario,
-    });
+    }); 
+    console.log(validaCorreo)
     if (validaCorreo.length > 0 || validaId.length > 0) {
       res.send({
         ok: true,

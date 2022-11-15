@@ -168,7 +168,7 @@ export default {
         let user = {
           correo: this.idLogin,
           contraseña: this.passwordLogin,
-        };
+        }; 
 
         let url = "http://localhost:8000/login";
         let response = await fetch(url, {
@@ -178,10 +178,11 @@ export default {
           },
           body: JSON.stringify(user),
         });
-        console.log(response);
+        
 
         let data = await response.json();
-        if (data.message == "Usuario Consultado") {
+        
+        if (data.message == "1") {
           localStorage.setItem("user-logged", JSON.stringify(data.info));
           localStorage.setItem("user-token", JSON.stringify(data.info.token));
 
@@ -190,15 +191,16 @@ export default {
             title: "Bienvenido",
             text: "has iniciado sesión!",
           });
-
+          
           this.$router.push({ path: "/home" });
-        } else if (data.message == "1") {
+          window.location.reload()
+        } else if (data.message == "2") {
           Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "correo o contraseña incorrecta!",
           });
-        } else if (data.message == "2") {
+        } else if (data.message == "3") {
           Swal.fire({
             icon: "info",
             title: "No tienes una cuenta?",
@@ -209,6 +211,7 @@ export default {
     },
 
     async doRegister() {
+      event.preventDefault();
       if (
         this.idReg === "" ||
         this.passwordReg === "" ||
@@ -222,14 +225,18 @@ export default {
           tipo: "user",
           correo: this.correoReg,
           contraseña: this.passwordReg,
+          create_by:this.nameReg
         };
         let url = "http://localhost:8000/usuario";
         let token =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzZlZGEzN2FkNzg2ZTBlMjlmZjZkZDIiLCJJZFVzdWFyaW8iOiIxMDAwNDEzNzQxIiwibm9tYnJlIjoiTWFybG9uIE9ycmVnbyIsInRpcG8iOiJ1c2VyIiwiY29ycmVvIjoibWFybG9ucmVzdHJlcG9AZ21haWwuY29tIiwiaWF0IjoxNjY4MjEwNTU5fQ.Pl9SdO_ZSYaQAZszVGZ4brB-woszU-gMec4LCqJw2eU";
-        const headers = { authorization: `Bearer ${token}` };
+        
         let response = await fetch(url, {
           method: "POST",
-          headers,
+          headers: {
+          "Content-Type": "application/json;charset=utf-8",
+          authorization: `Bearer ${token}`,
+        },
           body: JSON.stringify(user),
         });
         let data = await response.json();
@@ -239,7 +246,7 @@ export default {
             title: "Oops...",
             text: "usuario ya registrado!",
           });
-        } else if (data.message == "Usuario Creado.") {
+        } else if (data.message == "1") {
           Swal.fire({
             icon: "success",
             title: "Bienvenido",
@@ -248,7 +255,15 @@ export default {
         }
       }
     },
+    
   },
+  mounted() {
+      let user=localStorage.getItem("user-logged")
+      if(user!=null){
+        this.$router.push({ path: "/home" });
+      }
+      
+    }
 };
 </script>
 <style></style>

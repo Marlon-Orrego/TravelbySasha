@@ -3,10 +3,10 @@
 
 class Reserva {
 
-    constructor({ IdVuelo, IdUsuario, precio }) {
+    constructor({ IdVuelo, IdUsuario, cantidadSillas }) {
         this.IdVuelo = IdVuelo;
         this.IdUsuario = IdUsuario;
-        this.precio = precio;
+        this.cantidadSillas = cantidadSillas;
     }
 
 

@@ -20,7 +20,7 @@ router.post("/aviones", async (req, res) => {
     const responseDb = await insertDocument("sasha", "aviones", avion);
     res.send({
       ok: true,
-      message: "Avion creado.",
+      message: "1",
       info: responseDb,
     });
   } catch (error) {
@@ -29,7 +29,7 @@ router.post("/aviones", async (req, res) => {
     } else {
       res.status(500).send({
         ok: true,
-        message: "Avion NO creado.",
+        message: "2",
         info: error.toString(),
       });
     }
