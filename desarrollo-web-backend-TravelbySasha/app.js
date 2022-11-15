@@ -29,9 +29,9 @@ app.use(middlewareToken);
 app.use(routerAviones);
 app.use(routerReservas);
 app.use(routerUsuarios);
-app.use(routerVuelos);
+app.use(routerVuelos);0
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Ejecución del API: http://localhost:${PORT}`);
 });
