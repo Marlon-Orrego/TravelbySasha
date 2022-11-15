@@ -14,17 +14,9 @@
             <h4 class="card-category">Aterrizaje: {{ d.FechaAterrizaje }}</h4>
           </div>
           <div slot="footer">
-            <button class="btn btn-light" v-on:click="ReservarVueloForm()" v-show="!cantidadSillasForm">
+            <button class="btn btn-light" v-on:click="ReservarVueloForm(d)">
               Reservar
             </button>
-            <div v-show="cantidadSillasForm">
-              <base-input type="number" placeholder="Cantidad de sillas*" v-model="datosReserva.cantidadSillas">
-              </base-input>
-              <button class="btn btn-light" v-on:click="ReservarVuelo(d)">
-                confirmar
-              </button>
-            </div>
-
           </div>
         </stats-card>
       </CCol>
@@ -83,8 +75,15 @@ export default {
         return "col-md";
       }
     },
-    ReservarVueloForm() {
-      this.cantidadSillasForm = true
+    async ReservarVueloForm(d) {
+      await Swal.fire({
+        title: 'Ingresa la cantidad de sillas',
+        input: 'number',
+        inputValidator: (value) => {
+          this.datosReserva.cantidadSillas = value
+          this.ReservarVuelo(d)
+        }
+      })
     },
     async ReservarVuelo(d) {
       let user = localStorage.getItem("user-logged")
@@ -125,7 +124,7 @@ export default {
           text: "Debes proporcionar la información requerida.",
         });
       }
-      this.cantidadSillasForm=false
+      this.cantidadSillasForm = false
     }
 
   },
